@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('news/create', [Controllers\Admin\NewsController::class, 'create']);
+    Route::get('news/{news_id}/edit', [Controllers\Admin\NewsController::class, 'edit']);
+
+    Route::get('profile/create', [Controllers\Admin\ProfileController::class, 'create']);
+    Route::get('profile/edit', [Controllers\Admin\ProfileController::class, 'edit']);
+});
+
