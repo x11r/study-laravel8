@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::get('news/create', [Controllers\Admin\NewsController::class, 'create']);
     Route::get('news/{news_id}/edit', [Controllers\Admin\NewsController::class, 'edit']);
 
@@ -27,3 +27,7 @@ Route::group(['prefix' => 'admin'], function() {
     Route::get('profile/edit', [Controllers\Admin\ProfileController::class, 'edit']);
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
