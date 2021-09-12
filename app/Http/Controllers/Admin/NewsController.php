@@ -7,15 +7,15 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-
-    public function create()
+    public function add()
     {
         return view('admin.news.create');
     }
 
-    public function add()
+
+    public function create()
     {
-        return view('admin.news.create');
+        return redirect('admin/news/create');
     }
 
     public function edit($news_id)

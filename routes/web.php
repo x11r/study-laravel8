@@ -20,10 +20,11 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
-    Route::get('news/create', [Controllers\Admin\NewsController::class, 'create']);
+    Route::get('news/create', [Controllers\Admin\NewsController::class, 'add']);
+    Route::post('news/create', [Controllers\Admin\NewsController::class, 'create'])->name('admin.news.create');
     Route::get('news/{news_id}/edit', [Controllers\Admin\NewsController::class, 'edit']);
 
-    Route::get('profile/create', [Controllers\Admin\ProfileController::class, 'create']);
+    Route::get('profile/create', [Controllers\Admin\ProfileController::class, 'create'])->name('admin.profile.create');
     Route::get('profile/edit', [Controllers\Admin\ProfileController::class, 'edit']);
 });
 
