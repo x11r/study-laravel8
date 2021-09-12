@@ -33,7 +33,7 @@ class NewsController extends Controller
         $news->fill($form);
         $news->save();
 
-        return redirect('admin/news/create');
+        return redirect(route('admin.news.index'));
     }
 
     public function index(Request $request)
@@ -48,9 +48,46 @@ class NewsController extends Controller
         return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
     }
 
-    public function edit($news_id)
+    public function edit(Request $request, $news_id)
     {
-        dd(__LINE__ . ' ' .__METHOD__. ' [news_id]'.$news_id);
-        return view('edit.news.edit');
+        $news = News::find($news_id);
+        if (empty($news)) {
+            abort(404);
+        }
+
+        return view('admin.news.edit', ['news_form' => $news]);
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request, News::$rules);
+        $news = News::find($request->id);
+
+        $news_form = $request->all();
+
+        if ($request->remove == 'true') {
+            $news_form['image_path'] = null;
+        } elseif ($request->file('image')) {
+            $path = $request->file('image')->store('public/image');
+            $news_form['image_path'] = $news->image_path;
+        } else {
+            $news_form['image_path'] = $news->image_path;
+        }
+
+        unset($news_form['image']);
+        unset($news_form['remove']);
+        unset($news_form['_token']);
+        $news->fill($news_form)->save();
+
+        return redirect(route('admin.news.index'));
+    }
+
+    public function delete(Request $request)
+    {
+        $news = News::find($request->news_id);
+//        dd($request->news_id);
+//        dd($news);
+        $news->delete();
+        return redirect(route('admin.news.index'));
     }
 }
