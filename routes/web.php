@@ -19,11 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
-    Route::get('news/create', [Controllers\Admin\NewsController::class, 'add']);
-    Route::post('news/create', [Controllers\Admin\NewsController::class, 'create'])
-        ->name('admin.news.create');
-    Route::get('news/{news_id}/edit', [Controllers\Admin\NewsController::class, 'edit']);
+Route::group(['prefix' => '/admin', 'middleware' => 'auth'], function() {
+    Route::get('news/create', [Controllers\Admin\NewsController::class, 'add'])->name('admin.news.add');
+    Route::post('news/create', [Controllers\Admin\NewsController::class, 'create'])->name('admin.news.create');
+    Route::get('news/{news_id}/edit', [Controllers\Admin\NewsController::class, 'edit'])->name('admin.news.edit');
+    Route::get('news', [Controllers\Admin\NewsController::class, 'index'])->name('admin.news.index');
 
     Route::get('profile/create', [Controllers\Admin\ProfileController::class, 'add']);
     Route::post('profile/create', [Controllers\Admin\ProfileController::class, 'create'])
